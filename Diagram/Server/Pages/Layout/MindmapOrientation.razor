@@ -26,7 +26,7 @@
         new OrientationItem { Text = "Right to Left", Value = LayoutOrientation.RightToLeft }
     };
 
-    private List<MindMapDetails> DataSource { get; set; } = new()
+    private List<MindMapDetails> _dataSource { get; set; } = new()
     {
         new MindMapDetails { Id = "1", Label = "Project Planning", ParentId = "", Branch = "Root" },
         new MindMapDetails { Id = "2", Label = "Requirements", ParentId = "1", Branch = "Right" },
@@ -51,7 +51,7 @@
     // Method triggered by button click at runtime to set diagram orientation to vertical.
     private void ChangeLayoutOrientation()
     {
-       _diagram?.Layout.Orientation = LayoutOrientation.Vertical;
+       _diagram!.Layout.Orientation = LayoutOrientation.Vertical;
     }
 
     private void OnNodeCreating(IDiagramObject obj)
