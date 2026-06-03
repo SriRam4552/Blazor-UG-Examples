@@ -22,13 +22,11 @@
     {
         Node node1 = createNode("node1", 100, 100, "Node1");
         Node node2 = createNode("node2", 300, 100, "Node2");
-        Node node3 = createNode("node3", 200, 250, "Node3");
         NodeGroup groupnode = new NodeGroup();
         // Grouping node 1 and node 2 into a single group
         groupnode.Children = new string[] { "node1", "node2" };
         _nodes.Add(node1);
         _nodes.Add(node2);
-        _nodes.Add(node3);
         _nodes.Add(groupnode);
     }
 
