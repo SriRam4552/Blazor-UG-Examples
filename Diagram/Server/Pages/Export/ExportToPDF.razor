@@ -1,4 +1,4 @@
-﻿@page "/Export"
+﻿@page "/ExportToPdf"
 
 @using Syncfusion.PdfExport;
 @using Syncfusion.Blazor.Diagram
@@ -6,7 +6,6 @@
 @inject IJSRuntime JS;
 
 <SfButton Content="ExportPDF" OnClick="@ExportPDFAsync" />
-<SfButton Content="ExportPng" OnClick="@ExportPngAsync" />
 <SfDiagramComponent Height="600px" @ref="@_diagram" />
 
 @code
