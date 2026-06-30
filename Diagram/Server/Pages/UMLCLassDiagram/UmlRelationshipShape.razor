@@ -1,0 +1,134 @@
+﻿@page "/uml-relationship-shapes"
+
+@using Syncfusion.Blazor.Diagram
+
+<SfDiagramComponent Height="800px" Connectors="@connectors" Nodes = "@nodes">
+    <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+</SfDiagramComponent>
+
+@code {
+    private DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+    private DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+
+    protected override void OnInitialized()
+    {
+        connectors.Add(new Connector()
+        {
+            ID = "inheritance",
+            SourcePoint = new DiagramPoint() { X = 100, Y = 100 },
+            TargetPoint = new DiagramPoint() { X = 200, Y = 200 },
+            Type = ConnectorSegmentType.Straight,
+            Shape = new RelationShip() { RelationshipShape = Relationship.Inheritance }
+        });
+        connectors.Add(new Connector()
+        {
+            ID = "realization",
+            SourcePoint = new DiagramPoint() { X = 250, Y = 100 },
+            TargetPoint = new DiagramPoint() { X = 350, Y = 200 },
+            Type = ConnectorSegmentType.Straight,
+            Shape = new RelationShip() { RelationshipShape = Relationship.Realization }
+        });
+        connectors.Add(new Connector()
+        {
+            ID = "aggregation",
+            SourcePoint = new DiagramPoint() { X = 400, Y = 100 },
+            TargetPoint = new DiagramPoint() { X = 500, Y = 200 },
+            Type = ConnectorSegmentType.Straight,
+            Shape = new RelationShip()
+            {
+                RelationshipShape = Relationship.Aggregation,
+            }
+        });
+        connectors.Add(new Connector()
+        {
+            ID = "composition",
+            SourcePoint = new DiagramPoint() { X = 550, Y = 100 },
+            TargetPoint = new DiagramPoint() { X = 650, Y = 200 },
+            Type = ConnectorSegmentType.Straight,
+            Shape = new RelationShip()
+            {
+                RelationshipShape = Relationship.Composition,
+            }
+        });
+        connectors.Add(new Connector()
+        {
+            ID = "dependency",
+            SourcePoint = new DiagramPoint() { X = 700, Y = 100 },
+            TargetPoint = new DiagramPoint() { X = 800, Y = 200 },
+            Type = ConnectorSegmentType.Straight,
+            Shape = new RelationShip() { RelationshipShape = Relationship.Dependency }
+        });
+        connectors.Add(new Connector()
+        {
+            ID = "association",
+            SourcePoint = new DiagramPoint() { X = 850, Y = 100 },
+            TargetPoint = new DiagramPoint() { X = 950, Y = 200 },
+            Type = ConnectorSegmentType.Straight,
+            Shape = new RelationShip()
+            {
+                RelationshipShape = Relationship.Association,
+                AssociationType = AssociationFlow.Directional
+            }
+        });
+        connectors.Add(new Connector()
+        {
+            ID = "association1",
+            SourcePoint = new DiagramPoint() { X = 850, Y = 100 },
+            TargetPoint = new DiagramPoint() { X = 950, Y = 200 },
+            Type = ConnectorSegmentType.Straight,
+            Shape = new RelationShip()
+                        {
+                            RelationshipShape = Relationship.Dependency,
+                            Multiplicity = new ClassifierMultiplicity()
+                            {
+                                Source = new MultiplicityLabel() { LowerBounds = "0", UpperBounds = "1" }
+                        ,
+                                Target = new MultiplicityLabel() { LowerBounds = "1", UpperBounds = "*" }
+                            }
+                        }
+        });
+        nodes.Add(new Node()
+        {
+            ID = "Order",
+            OffsetX = 150,
+            OffsetY = 200,
+            Width = 180,
+            Shape = new UmlClassifierShape()
+            {
+                Classifier = ClassifierShape.Class,
+                ClassShape = new UmlClass() { Name = "Order" }
+            }
+        });
+
+        nodes.Add(new Node()
+        {
+            ID = "Product",
+            OffsetX = 250,
+            OffsetY = 350,
+            Width = 180,
+            Shape = new UmlClassifierShape()
+            {
+                Classifier = ClassifierShape.Class,
+                ClassShape = new UmlClass() { Name = "Product" }
+            }
+        });
+
+        connectors.Add(new Connector()
+        {
+            ID = "rel1",
+            SourceID = "Order",
+            TargetID = "Product",
+            Type = ConnectorSegmentType.Orthogonal,
+            Shape = new RelationShip()
+            {
+                RelationshipShape = Relationship.Aggregation,
+                AssociationType = AssociationFlow.BiDirectional,
+                Multiplicity = new ClassifierMultiplicity()
+                {
+                    Source = new MultiplicityLabel() { LowerBounds = "1", UpperBounds = "1" },
+                    Target = new MultiplicityLabel() { LowerBounds = "0", UpperBounds = "*" }
+                }
+            }
+        });
+    }
+}

@@ -1,0 +1,94 @@
+﻿@page "/AnnotationInteractionEvents"
+
+@using Syncfusion.Blazor.Diagram
+
+<SfDiagramComponent Height="600px" Nodes="@_nodes" SelectionChanging="OnSelectionChanging" SelectionChanged="OnSelectionChanged" 
+                    PositionChanging="OnPositionChanging" PositionChanged="OnPositionChanged" SizeChanged="OnSizeChanged" SizeChanging="OnSizeChanging" RotationChanging="OnRotateChanging" RotationChanged="OnRotateChanged" />
+
+@code
+{
+    private DiagramObjectCollection<Node> _nodes;
+
+    protected override void OnInitialized()
+    {
+        _nodes = new DiagramObjectCollection<Node>();
+        Node node = new Node()
+        {
+            ID = "node1",
+            OffsetX = 250,
+            OffsetY = 250,
+            Width = 100,
+            Height = 100,
+            Style = new ShapeStyle()
+            {
+                Fill = "#6BA5D7",
+                StrokeColor = "white"
+            },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+            {
+                new ShapeAnnotation
+                {
+                    Content = "Selectable Annotation",
+                    Constraints = AnnotationConstraints.Interaction
+                }
+            }
+        };
+        _nodes.Add(node);
+    }
+
+    // Event triggered before annotation selection changes
+    private void OnSelectionChanging(SelectionChangingEventArgs args)
+    {
+        // Prevent annotation selection if needed
+        // args.Cancel = true;
+        Console.WriteLine("Annotation selection changing");
+    }
+
+    // Event triggered after annotation selection changes
+    private void OnSelectionChanged(SelectionChangedEventArgs args)
+    {
+        Console.WriteLine("Annotation selection changed");
+    }
+
+    // Event triggered while dragging the annotation
+    private void OnPositionChanging(PositionChangingEventArgs args)
+    {
+        // Prevent position change if needed
+        // args.Cancel = true;
+        Console.WriteLine("Annotation position changing");
+    }
+
+    // Event triggered after annotation position changes
+    private void OnPositionChanged(PositionChangedEventArgs args)
+    {
+        Console.WriteLine("Annotation position changed");
+    }
+
+    // Event triggered before annotation size changes
+    private void OnSizeChanging(SizeChangingEventArgs args)
+    {
+        // Prevent size change if needed
+        // args.Cancel = true;
+        Console.WriteLine("Annotation size changing");
+    }
+
+    // Event triggered after annotation size changes
+    private void OnSizeChanged(SizeChangedEventArgs args)
+    {
+        Console.WriteLine("Annotation size changed");
+    }
+
+    // Event triggered before annotation rotation changes
+    private void OnRotateChanging(RotationChangingEventArgs args)
+    {
+        // Prevent rotation if needed
+        // args.Cancel = true;
+        Console.WriteLine("Annotation rotation changing");
+    }
+
+    // Event triggered after annotation rotation changes
+    private void OnRotateChanged(RotationChangedEventArgs args)
+    {
+        Console.WriteLine("Annotation rotation changed");
+    }
+}

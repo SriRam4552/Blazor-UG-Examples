@@ -1,0 +1,59 @@
+﻿@page "/UMLHeaderProperties"
+
+@using Syncfusion.Blazor.Diagram
+
+<SfDiagramComponent Height="600px" Nodes="@nodes">
+    <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+</SfDiagramComponent>
+
+@code {
+    DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+
+    protected override void OnInitialized()
+    {
+        nodes.Add(new Node()
+        {
+            ID = "customerNode",
+            OffsetX = 250,
+            OffsetY = 300,
+            Width = 220,
+            Shape = new UmlClassifierShape()
+            {
+                Classifier = ClassifierShape.Class,
+                HeaderStyle = new TextStyle() { Fill = "#334155", Color = "#FFFFFF", Bold = true },
+                ClassShape = new UmlClass()
+                {
+                    Name = "Customer",
+
+                    AttributeHeaderSettings = new UmlSectionHeaderSettings()
+                    {
+                        HeaderText = "Properties",
+                        ShowExpandCollapseIcon = false,
+                        IsExpanded = true,
+                        Style = new TextStyle() { Fill = "#475569", Color = "#FFFFFF", Bold = true }
+                    },
+                    MethodHeaderSettings = new UmlSectionHeaderSettings()
+                    {
+                        HeaderText = "Operations",
+                        ShowExpandCollapseIcon = true,
+                        EnableAddAction = true,
+                        EnableRemoveAction = true,
+                        IsExpanded = true,
+                        Style = new TextStyle() { Fill = "#64748B", Color = "#FFFFFF", Bold = true }
+                    },
+                    Attributes = new DiagramObjectCollection<UmlClassAttribute>()
+                    {
+                        new UmlClassAttribute() { Name = "CustomerId", Type = "int", Scope = UmlScope.Public, Style = new TextStyle() { Fill = "#E2E8F0", Color = "#334155" } },
+                        new UmlClassAttribute() { Name = "Email", Type = "string", Scope = UmlScope.Private, Style = new TextStyle() { Fill = "#E2E8F0", Color = "#334155" } }
+                    },
+                    Methods = new DiagramObjectCollection<UmlClassMethod>()
+                    {
+                        new UmlClassMethod() { Name = "PlaceOrder", Type = "void", Scope = UmlScope.Public, Style = new TextStyle() { Fill = "#F8FAFC", Color = "#475569" } },
+                        new UmlClassMethod() { Name = "UpdateProfile", Type = "bool", Scope = UmlScope.Public, Style = new TextStyle() { Fill = "#F8FAFC", Color = "#475569" } },
+                        new UmlClassMethod() { Name = "GetOrderHistory", Type = "List<Order>", Scope = UmlScope.Public, Style = new TextStyle() { Fill = "#F8FAFC", Color = "#475569" } }
+                    }
+                }
+            }
+        });
+    }
+}

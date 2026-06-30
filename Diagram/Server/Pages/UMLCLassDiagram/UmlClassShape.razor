@@ -1,0 +1,48 @@
+﻿@page "/uml-class-shape"
+
+@using Syncfusion.Blazor.Diagram
+
+<SfDiagramComponent Height="600px" Nodes="@nodes">
+    <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+</SfDiagramComponent>
+
+@code {
+    DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+
+    protected override void OnInitialized()
+    {
+        nodes.Add(new Node()
+        {
+            ID = "classNode",
+            OffsetX = 150,
+            OffsetY = 150,
+            Shape = new UmlClassifierShape()
+            {
+                Classifier = ClassifierShape.Class,
+                ClassShape = new UmlClass()
+                {
+                    Name = "Animal",
+                    Attributes = new DiagramObjectCollection<UmlClassAttribute>()
+                    {
+                        new UmlClassAttribute() { Name = "name", Type = "string", Scope = UmlScope.Private },
+                        new UmlClassAttribute() { Name = "age",  Type = "int",    Scope = UmlScope.Private }
+                    },
+                    Methods = new DiagramObjectCollection<UmlClassMethod>()
+                    {
+                        new UmlClassMethod() { Name = "eat",  Type = "void", Scope = UmlScope.Public },
+                        new UmlClassMethod()
+                        {
+                            Name = "move",
+                            Type = "void",
+                            Scope = UmlScope.Public,
+                            Parameters = new DiagramObjectCollection<UmlTypedElement>()
+                            {
+                                new UmlTypedElement() { Name = "speed", Type = "int" }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+}

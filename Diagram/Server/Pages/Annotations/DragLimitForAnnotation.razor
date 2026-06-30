@@ -1,0 +1,41 @@
+﻿@page "/DragLimitForAnnotation"
+
+@using Syncfusion.Blazor.Diagram
+
+<SfDiagramComponent Height="600px" Connectors="@_connectors" />
+
+@code
+{
+    DiagramObjectCollection<Connector> _connectors;
+
+    protected override void OnInitialized()
+    {
+        _connectors = new DiagramObjectCollection<Connector>();
+        Connector connector = new Connector()
+        {
+            ID = "connector",
+            Type = ConnectorSegmentType.Orthogonal,
+            SourcePoint = new DiagramPoint() { X = 200, Y = 200 },
+            TargetPoint = new DiagramPoint() { X = 300, Y = 300 },
+            // Sets the multiple annotation for the connector
+            Annotations = new DiagramObjectCollection<PathAnnotation>()
+            {
+                new PathAnnotation
+                {
+                    Content = "connector1",
+                    Offset = 0.5,
+                    Constraints = AnnotationConstraints.Interaction | AnnotationConstraints.Drag,
+                    // Set drag limit for a connector annotation
+                    DragLimit = new DiagramThickness()
+                    {
+                        Left = 20,
+                        Right = 20,
+                        Top = 20,
+                        Bottom = 20
+                    }
+                }
+            }
+        };
+        _connectors.Add(connector);
+    }
+}

@@ -1,0 +1,186 @@
+﻿@page "/UMLCLassSymlbolShapes"
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Diagram.SymbolPalette
+
+<div style="float:left">
+    <SfSymbolPaletteComponent @ref="@palette" Width="320px" Height="900px" Palettes="@palettes" SymbolHeight="@symbolHeight" SymbolWidth="@symbolWidth"
+        SymbolDragPreviewSize="@symbolDragPreviewSize" GetSymbolInfo="GetSymbolInfo">
+    </SfSymbolPaletteComponent>
+</div>
+<div style="float:left">
+        <SfDiagramComponent @ref="@Diagram" Height="700px" Width="600px"></SfDiagramComponent>
+</div>
+@code {
+    private SfDiagramComponent Diagram;
+    private DiagramSize symbolDragPreviewSize;
+    private SymbolInfo SymbolInfo = new SymbolInfo();
+    private SfSymbolPaletteComponent palette;
+    private DiagramObjectCollection<Palette> palettes;
+    double symbolHeight = 130;
+    double symbolWidth = 130;
+    private DiagramObjectCollection<NodeBase> umlClassNodes { get; set; }
+    private DiagramObjectCollection<NodeBase> umlConnectors { get; set; }
+    protected override void OnInitialized()
+    {
+        symbolDragPreviewSize = new DiagramSize();
+        symbolDragPreviewSize.Width = 160;
+        symbolDragPreviewSize.Height = 160;
+        InitializePalatte();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        palette.Targets = new DiagramObjectCollection<SfDiagramComponent>
+        {
+            Diagram
+        };
+    }
+    private void InitializePalatte()
+    {
+        palettes = new DiagramObjectCollection<Palette>();
+        umlClassNodes = new DiagramObjectCollection<NodeBase>();
+        umlClassNodes.Add(new Node
+        {
+            ID = "Class",
+            OffsetX = 160,
+            OffsetY = 200,
+            Width = 200,
+            Height = 200,
+            Shape = new UmlClassifierShape()
+            {
+                Classifier = ClassifierShape.Class,
+                HeaderStyle = new TextStyle() { Fill = "#E3F2FD", StrokeColor = "#1976D2", Bold = true, Color = "#0D47A1" },
+                ClassShape = new UmlClass()
+                {
+                    Name = "ClassName",
+                }
+            }
+        });
+        umlClassNodes.Add(new Node
+        {
+            ID = "Interface",
+            OffsetX = 420,
+            OffsetY = 200,
+            Width = 200,
+            Height = 200,
+            Shape = new UmlClassifierShape()
+            {
+                Classifier = ClassifierShape.Interface,
+                HeaderStyle = new TextStyle() { Fill = "#E3F2FD", StrokeColor = "#1976D2", Bold = true, Color = "#0D47A1" },
+                InterfaceShape = new UmlInterface
+                {
+                    Name = "InterfaceName",
+                }
+            }
+        });
+        umlClassNodes.Add(new Node
+        {
+            ID = "Enumeration",
+            OffsetX = 680,
+            OffsetY = 200,
+            Width = 200,
+            Height = 200,
+            Shape = new UmlClassifierShape()
+            {
+                Classifier = ClassifierShape.Enumeration,
+                HeaderStyle = new TextStyle()
+                {
+                    Fill = "#E3F2FD",
+                    StrokeColor = "#1976D2",
+                    Bold = true,
+                    Color = "#0D47A1"
+                },
+                EnumerationShape = new UmlEnumeration
+                {
+                    Name = "EnumName",
+                }
+            }
+        });
+        umlConnectors = new DiagramObjectCollection<NodeBase>();
+        umlConnectors.Add(new Connector
+        {
+            ID = "Association",
+            SourcePoint = new DiagramPoint() { X = 110, Y = 0 },
+            TargetPoint = new DiagramPoint() { X = 200, Y = 110 },
+            Type = ConnectorSegmentType.Straight,
+            Shape = new RelationShip() { RelationshipShape = Relationship.Association }
+        });
+        umlConnectors.Add(new Connector
+        {
+            ID = "Aggregation",
+            SourcePoint = new DiagramPoint() { X = 0, Y = 0 },
+            TargetPoint = new DiagramPoint() { X = 100, Y = 100 },
+            Type = ConnectorSegmentType.Straight,
+            Shape = new RelationShip() { RelationshipShape = Relationship.Aggregation }
+        });
+        umlConnectors.Add(new Connector
+        {
+            ID = "Composition",
+            SourcePoint = new DiagramPoint() { X = 230, Y = 120 },
+            TargetPoint = new DiagramPoint() { X = 320, Y = 230 },
+            Type = ConnectorSegmentType.Straight,
+            Shape = new RelationShip() { RelationshipShape = Relationship.Composition }
+        });
+        umlConnectors.Add(new Connector
+        {
+            ID = "Inheritance",
+            SourcePoint = new DiagramPoint() { X = 100, Y = 300 },
+            TargetPoint = new DiagramPoint() { X = 200, Y = 400 },
+            Type = ConnectorSegmentType.Straight,
+            Shape = new RelationShip() { RelationshipShape = Relationship.Inheritance }
+        });
+        umlConnectors.Add(new Connector
+        {
+            ID = "Multiplicity",
+            SourcePoint = new DiagramPoint() { X = 400, Y = 300 },
+            TargetPoint = new DiagramPoint() { X = 500, Y = 400 },
+            Type = ConnectorSegmentType.Straight,
+            Shape = new RelationShip()
+            {
+                RelationshipShape = Relationship.Dependency,
+                Multiplicity = new ClassifierMultiplicity()
+                {
+                    Source = new MultiplicityLabel() { LowerBounds = "1", UpperBounds = "*" },
+                    Target = new MultiplicityLabel() { LowerBounds = "0", UpperBounds = "1" }
+                }
+            }
+        });
+        umlConnectors.Add(new Connector
+        {
+            ID = "BiDirectional",
+            SourcePoint = new DiagramPoint() { X = 120, Y = 120 },
+            TargetPoint = new DiagramPoint() { X = 220, Y = 220 },
+            Type = ConnectorSegmentType.Straight,
+            Shape = new RelationShip() { RelationshipShape = Relationship.Association, AssociationType = AssociationFlow.BiDirectional }
+        });
+        palettes.Add(
+           new Palette()
+           {
+               ID = "BasicShape",
+               Symbols = umlClassNodes,
+               Title = "UML Class Shapes",
+           }
+        );
+        palettes.Add(
+           new Palette()
+           {
+               ID = "ConnectorShape",
+               Symbols = umlConnectors,
+               Title = "UML Class Connector",
+           }
+        );
+    }
+    private SymbolInfo GetSymbolInfo(IDiagramObject symbol)
+    {
+        SymbolInfo symbolInfo = new SymbolInfo();
+        string text = string.Empty;
+        text = (symbol as NodeBase).ID;
+        symbolInfo.Width = 75;
+        symbolInfo.Height = 40;
+        symbolInfo.Description = new SymbolDescription()
+        {
+            Text = text,
+            Margin = new DiagramThickness() { Top = 10, Bottom = 10 }
+        };
+        return symbolInfo;
+    }
+}

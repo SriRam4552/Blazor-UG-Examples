@@ -1,0 +1,40 @@
+﻿@page "/uml-interface-shape"
+
+@using Syncfusion.Blazor.Diagram
+
+<SfDiagramComponent Height="600px" Nodes="@nodes">
+        <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+</SfDiagramComponent>
+
+@code {
+    DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+
+    protected override void OnInitialized()
+    {
+        nodes.Add(new Node()
+        {
+            ID = "interfaceNode",
+            OffsetX = 150,
+            OffsetY = 150,
+            Width = 200,
+            Shape = new UmlClassifierShape()
+            {
+                Classifier = ClassifierShape.Interface,
+                InterfaceShape = new UmlInterface()
+                {
+                    Name = "IMovable",
+                    Attributes = new DiagramObjectCollection<UmlClassAttribute>()
+                    {
+                        new UmlClassAttribute() { Name = "name", Type = "string", Scope = UmlScope.Private },
+                    },
+                    Methods = new DiagramObjectCollection<UmlClassMethod>()
+                    {
+                        new UmlClassMethod() { Name = "Move",  Type = "void", Scope = UmlScope.Public },
+                        new UmlClassMethod() { Name = "Stop",  Type = "void", Scope = UmlScope.Public },
+                        new UmlClassMethod() { Name = "GetSpeed", Type = "double", Scope = UmlScope.Public }
+                    }
+                }
+            }
+        });
+    }
+}

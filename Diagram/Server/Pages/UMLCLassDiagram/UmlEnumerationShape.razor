@@ -1,0 +1,50 @@
+﻿@page "/uml-enumeration-shape"
+
+@using Syncfusion.Blazor.Diagram
+
+<SfDiagramComponent Height="600px" Nodes="@nodes">
+        <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+</SfDiagramComponent>
+
+@code {
+    DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+
+    protected override void OnInitialized()
+    {
+        nodes.Add(new Node()
+            {
+
+                ID = "enumNode",
+                OffsetX = 150,
+                OffsetY = 150,
+                Width = 220,
+                Shape = new UmlClassifierShape()
+                {
+                    Classifier = ClassifierShape.Enumeration,
+                    EnumerationShape = new UmlEnumeration()
+                    {
+                        Name = "OrderStatus",
+                        Members = new DiagramObjectCollection<UmlEnumerationMember>()
+                        {
+                            new UmlEnumerationMember()
+                            {
+                                Name = "Pending = 0"
+                            },
+                            new UmlEnumerationMember()
+                            {
+                                Name = "Processing = 1"
+                            },
+                            new UmlEnumerationMember()
+                            {
+                                Name = "Shipped = 2"
+                            },
+                            new UmlEnumerationMember()
+                            {
+                                Name = "Delivered = 3"
+                            }
+                        }
+                    }
+                }
+            });
+    }
+}
